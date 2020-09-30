@@ -6,6 +6,8 @@ const calculator = () => {
     const nineMonth = document.getElementById('m3');
     const oneYear = document.getElementById('m4');
 
+    const btn = document.getElementById('card-order-btn');
+
     let oneMonthPrice = 1999;
     let sixMonthsPrice = 9900;
     let nineMonthsPrice = 13900;
@@ -78,6 +80,13 @@ const calculator = () => {
         let target = e.target;
         getDiscount();
         mainFunctionCalculator();
+    });
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        oneMonthPrice = 1999;
+        sixMonthsPrice = 9900;
+        nineMonthsPrice = 13900;
+        oneYearPrice = 19900;
     });
   
 };

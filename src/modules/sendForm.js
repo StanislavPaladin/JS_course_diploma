@@ -33,7 +33,8 @@ const sendForm = () => {
     const promoCode = document.getElementById('promoCode');
     const oneMonth = document.getElementById('m1');
     const mosaicCheckbox = document.getElementById('card_leto_mozaika');
-    const priceTotal = document.getElementById('price-total');
+    const output = document.getElementById('price-total');
+    const footerClub = document.getElementById('footer_leto_mozaika');
     
     const footerInput = document.getElementById('callback_footer_form-phone');
 
@@ -49,14 +50,14 @@ const sendForm = () => {
             item.value = value + '-';
         }
         });
-     });
+    });
 
-     userName.forEach((item) => {
-         item.value='';
+    userName.forEach((item) => {
+        item.value='';
         addEventListener('input', () => {
-         item.value = item.value.replace(/[^а-я А-Я ]/g,'');           
+        item.value = item.value.replace(/[^а-я А-Я ]/g,'');           
         });
-     });
+    });
 
     const clearForms = () => {
         userName.forEach((item) => {      
@@ -69,10 +70,14 @@ const sendForm = () => {
 
     const clearOrderForm = () =>{
         promoCode.value = '';
-        // priceTotal.textContent = 1999;
         oneMonth.checked = true;
         cardCheck.checked = false;
-        // mosaicCheckbox.checked = true;
+        if(document.body.contains(mosaicCheckbox)) {
+        mosaicCheckbox.checked = true;
+        } else {
+            return;
+        }
+        
     };
     
     const clearStatusMessage = () => {
@@ -101,23 +106,25 @@ const sendForm = () => {
                 const formData = new FormData(freeVisitForm);         
                 let body = {};
                 formData.forEach((val, key) => {
-                  body[key] = val;
+                body[key] = val;
                 });
                 postData(body)
                 .then((response) => {
                     if(response.status !== 200) {
                         throw new Error('status network is not 200');
                     }
-                   
-                   thanks.style = 'display: block;';
+                    
+                thanks.style = 'display: block;';
                 })
                 .catch((error) => {
                     getError();
                 });
                 clearForms();
+                check2.checked = false;
                 clearStatusMessage();
         } else {
             freeVisitForm.appendChild(statusMessage);
+            check2.checked = false;
             getSucces();
         }
     });
@@ -131,24 +138,26 @@ const sendForm = () => {
                 const formData = new FormData(callbackForm);         
                 let body = {};
                 formData.forEach((val, key) => {
-                  body[key] = val;
+                body[key] = val;
                 });
                 postData(body)
                 .then((response) => {
                     if(response.status !== 200) {
                         throw new Error('status network is not 200');
                     }
-                   
-                   thanks.style = 'display: block;';
+                
+                thanks.style = 'display: block;';
                 })
                 .catch((error) => {
                     getError();
                 });
                 clearForms();
+                check.checked = false;
                 clearStatusMessage();
         } else {
-            callbackForm.appendChild(statusMessage);
-           getSucces();
+        check.checked = false;
+        callbackForm.appendChild(statusMessage);
+        getSucces();
         }
     });
 
@@ -160,7 +169,7 @@ const sendForm = () => {
             const formData = new FormData(footerForm);         
             let body = {};
             formData.forEach((val, key) => {
-              body[key] = val;
+            body[key] = val;
             });
             postData(body)
             .then((response) => {
@@ -171,12 +180,14 @@ const sendForm = () => {
                 thanks.style = 'display: block;';
             })
             .catch((error) => {
-                 getError();
+                getError();
             });
             clearForms();
+            footerClub.checked = true;
             clearStatusMessage();
         } else {
             footerForm.appendChild(statusMessage);
+            footerClub.checked = true;
             statusMessage.textContent = `Введите номер телефона в международном формате! 
                                         Выберите клуб!`;
         }
@@ -190,15 +201,15 @@ const sendForm = () => {
                 const formData = new FormData(bannerForm);         
                 let body = {};
                 formData.forEach((val, key) => {
-                  body[key] = val;
+                body[key] = val;
                 });
                 postData(body)
                 .then((response) => {
                     if(response.status !== 200) {
                         throw new Error('status network is not 200');
                     }
-                   
-                   thanks.style = 'display: block;';
+                
+                thanks.style = 'display: block;';
                 })
                 .catch((error) => {
                     getError();
@@ -207,7 +218,7 @@ const sendForm = () => {
                 clearStatusMessage();
         } else {
             bannerForm.appendChild(statusMessage);
-           getSucces();
+        getSucces();
         }
     });
 
@@ -220,14 +231,14 @@ const sendForm = () => {
                 const formData = new FormData(cardOrderForm);         
                 let body = {};
                 formData.forEach((val, key) => {
-                  body[key] = val;
+                body[key] = val;
                 });
                 postData(body)
                 .then((response) => {
                     if(response.status !== 200) {
                         throw new Error('status network is not 200');
                     }
-                   thanks.style = 'display: block;';
+                thanks.style = 'display: block;';
                 })
                 .catch((error) => {
                     getError();
