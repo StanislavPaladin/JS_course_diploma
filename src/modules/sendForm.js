@@ -1,11 +1,12 @@
 'use strict';
 const sendForm = () => {
+    
     const loadMessage = 'Загрузка...';
     const thanksHeader = document.getElementById('thanksHeader');
     const thanksFormContent = document.getElementById('thanksFormContent');
     const thanks = document.getElementById('thanks');
     const check1 = document.getElementById('check1');
-    const cardCheck = document.getElementById('card_check');
+
     const cardOrderForm = document.getElementById('card_order');
     const bannerFormButton = document.getElementById('banner-form-button');
     const cardOrderButton = document.getElementById('card-order-btn');
@@ -18,8 +19,12 @@ const sendForm = () => {
     const userName = document.getElementsByName('name');
     const userPhone = document.getElementsByName('phone');
     const statusMessage = document.createElement('div');
+
     const cardOrderName = document.getElementById('card-order-form-name');
     const cardOrderPhone = document.getElementById('card-order-form-phone');
+    const cardCheck = document.getElementById('card_check');
+
+
     const bannerName = document.getElementById('banner-form-name');
     const bannerPhone = document.getElementById('banner-form-phone');
     const callbackName = document.getElementById('callback-name');
@@ -34,9 +39,19 @@ const sendForm = () => {
     const oneMonth = document.getElementById('m1');
     const mosaicCheckbox = document.getElementById('card_leto_mozaika');
     const output = document.getElementById('price-total');
+    
+    const footerBtn = document.getElementById('footer_form_btn');
     const footerClub = document.getElementById('footer_leto_mozaika');
+    const footerSchelkovo = document.getElementById('footer_leto_schelkovo');
+    footerClub.checked = false;
     
     const footerInput = document.getElementById('callback_footer_form-phone');
+
+    const schelkovo = document.getElementById('card_leto_schelkovo');
+    mosaicCheckbox.checked = false;
+    schelkovo.checked = false;
+    output.textContent = '0';
+
 
     userPhone.forEach((item) => {
         item.value = '';
@@ -73,7 +88,9 @@ const sendForm = () => {
         oneMonth.checked = true;
         cardCheck.checked = false;
         if(document.body.contains(mosaicCheckbox)) {
-        mosaicCheckbox.checked = true;
+        mosaicCheckbox.checked = false;
+        schelkovo.checked = false;
+        output.textContent = "0";
         } else {
             return;
         }
@@ -83,7 +100,7 @@ const sendForm = () => {
     const clearStatusMessage = () => {
         setTimeout(() => {
             statusMessage.textContent = '';   
-        }, 3000);
+        }, 2000);
     };
 
     const getError = () => {
@@ -161,9 +178,10 @@ const sendForm = () => {
         }
     });
 
-    footerForm.addEventListener('submit', (event) => {
+    footerBtn.addEventListener('click', (event) => {
         event.preventDefault();
         if (footerInput.value.length ===12) {
+            if (footerClub.checked || footerSchelkovo.checked){
             footerForm.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
             const formData = new FormData(footerForm);         
@@ -183,11 +201,14 @@ const sendForm = () => {
                 getError();
             });
             clearForms();
-            footerClub.checked = true;
+            footerClub.checked = false;
+            footerSchelkovo.checked = false;
             clearStatusMessage();
+        }
         } else {
             footerForm.appendChild(statusMessage);
-            footerClub.checked = true;
+            footerClub.checked = false;
+            footerSchelkovo.checked = false;
             statusMessage.textContent = `Введите номер телефона в международном формате! 
                                         Выберите клуб!`;
         }
@@ -226,6 +247,7 @@ const sendForm = () => {
     cardOrderButton.addEventListener('click', (event) => {
         event.preventDefault();
         if(cardCheck.checked && cardOrderName.value !== '' && cardOrderPhone.value !== '' && cardOrderPhone.value.length===12) {
+            if (mosaicCheckbox.checked || schelkovo.checked) {
                 cardOrderForm.appendChild(statusMessage);
                 statusMessage.textContent = loadMessage;
                 const formData = new FormData(cardOrderForm);         
@@ -246,6 +268,7 @@ const sendForm = () => {
                 clearForms();
                 clearOrderForm();
                 clearStatusMessage();
+            }
         } else {
             cardOrderForm.appendChild(statusMessage);
             statusMessage.textContent = `Введите имя и номер телефона в международном формате!

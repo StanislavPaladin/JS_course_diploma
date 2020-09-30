@@ -8,13 +8,18 @@ const calculator = () => {
 
     const btn = document.getElementById('card-order-btn');
 
-    let oneMonthPrice = 1999;
-    let sixMonthsPrice = 9900;
-    let nineMonthsPrice = 13900;
-    let oneYearPrice = 19900;
+    let oneMonthPrice = 0;
+    let sixMonthsPrice = 0;
+    let nineMonthsPrice = 0;
+    let oneYearPrice = 0;
 
     const mosaic = document.getElementById('card_leto_mozaika');
     const schelkovo = document.getElementById('card_leto_schelkovo');
+
+    const cardOrderName = document.getElementById('card-order-form-name');
+    const cardOrderPhone = document.getElementById('card-order-form-phone');
+    const cardCheck = document.getElementById('card_check');
+
 
     const promo = document.querySelectorAll('input');
     let promoValue = 1;
@@ -83,10 +88,14 @@ const calculator = () => {
     });
     btn.addEventListener('click', (e) => {
         e.preventDefault();
-        oneMonthPrice = 1999;
-        sixMonthsPrice = 9900;
-        nineMonthsPrice = 13900;
-        oneYearPrice = 19900;
+        if(cardCheck.checked && cardOrderName.value !== '' && cardOrderPhone.value !== '' && cardOrderPhone.value.length===12) {
+        oneMonthPrice = 0;
+        sixMonthsPrice = 0;
+        nineMonthsPrice = 0;
+        oneYearPrice = 0;
+        } else {
+            return;
+        }
     });
   
 };
